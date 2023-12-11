@@ -38,6 +38,10 @@ public class Member implements UserDetails {
     @Column(name = "member_name")
     private String name;
 
+    // 프로필사진
+    @Column(name = "member_image")
+    private String image;
+
     // 전화번호
     @Column(name = "member_phone_number")
     private String phoneNumber;
@@ -61,6 +65,20 @@ public class Member implements UserDetails {
     // 탈퇴여부
     @Column(name = "member_withdraw")
     private boolean withdraw;
+
+    // Builder를 통한 Member 엔티티 생성
+    @Builder
+    public Member(String auth, String email, String name, String image, String phoneNumber, String ageRange, String gender, int grade, List<String> roles) {
+        this.auth = auth;
+        this.email = email;
+        this.name = name;
+        this.image = image;
+        this.phoneNumber = phoneNumber;
+        this.ageRange = ageRange;
+        this.gender = gender;
+        this.grade = grade;
+        this.roles = roles;
+    }
 
     // 권한 리스트 (스프링 시큐리티용)
     @ElementCollection(fetch = FetchType.EAGER)
