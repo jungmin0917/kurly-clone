@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-</body>
+<th:block th:fragment="headFragment">
+    <!-- Head -->
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" th:href="@{/images/favicon.ico}">
+        <title>컬리 클론코딩</title>
+
+        <link rel="stylesheet" th:href="@{/css/swiper-bundle.min.css}"> <!--/* Swiper CSS */-->
+        <link rel="stylesheet" th:href="@{/css/common.css}"> <!--/* 사이트 전역 CSS */-->
+    </head>
+</th:block>
 </html>
