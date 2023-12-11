@@ -27,8 +27,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security' /* Spring Security 관련 */
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' /* 템플릿 엔진 Thymeleaf 관련 */
     implementation 'org.springframework.boot:spring-boot-starter-web' /* 스프링 MVC 관련 */
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0' /* 타임리프 레이아웃 관련 */
     implementation 'io.jsonwebtoken:jjwt:0.9.1' /* JWT 관련 */
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     compileOnly 'org.projectlombok:lombok' /* 롬복 관련 */
     developmentOnly 'org.springframework.boot:spring-boot-devtools' /* DevTools 관련 */
     runtimeOnly 'com.h2database:h2' /* 인메모리 데이터베이스 H2 관련 */
