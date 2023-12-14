@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +16,7 @@ import java.io.IOException;
 // 토큰을 이용한 인증을 처리하는 필터. 요청 헤더에서 토큰을 추출하고, 해당 토큰이 유효하면 인증 정보를 설정한다.
 
 @RequiredArgsConstructor
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final static String HEADER_AUTHORIZATION = "Authorization";
@@ -33,6 +35,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (tokenProvider.validToken(token)) { // 토큰이 유효하다면
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication); // 인증 정보를 관리하는 시큐리티 컨텍스트에 인증 정보를 설정함.
+
+            // 제대로 인증 정보 설정됐는지 확인함
+            log.info(SecurityContextHolder.getContext().getAuthentication().toString());
         }
 
         // 절대절대 주의!!!!!!!!!!
