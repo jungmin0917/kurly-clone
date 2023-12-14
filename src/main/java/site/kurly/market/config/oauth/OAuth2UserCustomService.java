@@ -5,8 +5,6 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Service;
 import site.kurly.market.domain.Member;
 import site.kurly.market.repository.MemberRepository;
@@ -20,7 +18,6 @@ import java.util.Map;
 @Service
 public class OAuth2UserCustomService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy(); // Spring Security의 기본 RedirectStrategy 사용
 
     // 요청을 바탕으로 유저 정보를 담은 객체 반환
     // OAuth2User는 OAuth 2.0 프로토콜을 사용하여 인증된 사용자의 정보를 나타내는 인터페이스이다.
