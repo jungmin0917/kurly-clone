@@ -1,18 +1,19 @@
 package site.kurly.market.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import site.kurly.market.config.jwt.TokenProvider;
 import site.kurly.market.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import site.kurly.market.config.oauth.OAuth2SuccessHandler;
@@ -20,6 +21,8 @@ import site.kurly.market.config.oauth.OAuth2UserCustomService;
 import site.kurly.market.filter.TokenAuthenticationFilter;
 import site.kurly.market.repository.RefreshTokenRepository;
 import site.kurly.market.service.MemberService;
+
+import java.io.IOException;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -77,6 +80,19 @@ public class WebOAuthSecurityConfig {
                 )
                 .logout(l -> l
                         .logoutSuccessUrl("/")
+                )
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint((HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) -> {
+                            if (request.getMethod().equals(HttpMethod.GET.name())) {
+                                try {
+                                    response.sendRedirect("/login");
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace(); // 예외 처리를 추가해도 좋아요
+                                }
+                            } else {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Custom Unauthorized Message");
+                            }
+                        })
                 )
                 .build();
     }

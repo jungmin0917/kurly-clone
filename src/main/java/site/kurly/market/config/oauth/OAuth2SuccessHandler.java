@@ -29,7 +29,7 @@ import java.time.Duration;
 @Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
-    public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
+    public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(7);
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
     public static final String REDIRECT_PATH = "/"; // 메인으로 가게 함
 
@@ -58,10 +58,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String refreshToken = tokenProvider.generateToken(member, REFRESH_TOKEN_DURATION); // 리프레시 토큰 생성
         saveRefreshToken(member.getNo(), refreshToken); // DB에 리프레시 토큰 저장
         addRefreshTokenToCookie(request, response, refreshToken); // 쿠키에 리프레시 토큰 저장
+        log.info("refreshToken: " + refreshToken);
 
-        // 액세스 토큰 생성 -> 패스에 액세스 토큰 추가
+        // 액세스 토큰 생성 -> URL에 액세스 토큰 추가
         String accessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION); // 액세스 토큰 생성
         String targetUrl = getTargetUrl(accessToken); // 패스에 액세스 토큰 추가
+        log.info("accessToken: " + accessToken);
 
         // 인증 관련 설정값, 쿠키 제거
         clearAuthenticationAttributes(request, response);

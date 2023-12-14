@@ -14,8 +14,8 @@ public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "no", updatable = false)
-    private Long no;
+    @Column(name = "token_no", updatable = false)
+    private Long tokenNo;
 
     @Column(name = "member_no", nullable = false, unique = true)
     private Long memberNo;

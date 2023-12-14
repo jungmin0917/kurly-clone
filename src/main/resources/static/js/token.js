@@ -1,7 +1,14 @@
 const token = searchParam('token');
 
 if (token) {
-  localStorage.setItem("access_token", token);
+  // localStorage에 저장
+  // localStorage.setItem("access_token", token);
+  
+  // 쿠키에 저장
+  // 일단 쿠키에만 저장하기로 함 (서버에서 확인할 때도 쿠키에서 확인하도록 함)
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 1);
+  document.cookie = `access_token=${token}; path=/; expires=${expirationDate.toUTCString()};`;
 }
 
 function searchParam(key) {
