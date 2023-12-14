@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import site.kurly.market.domain.Member;
 import site.kurly.market.repository.MemberRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 // OAuth2 로그인으로 얻은 사용자 정보를 커스텀해서 처리하는 서비스. 주로 DB에 사용자 정보를 저장하거나 업데이트하는 로직을 수행한다.
@@ -49,6 +51,10 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
             String email = rootNode.path("kakao_account").path("email").asText();
             String auth = attributes.get("id").toString();
 
+            // 기본 회원은 ROLE_USER 갖게 함
+            List<String> userRoles = new ArrayList<>();
+            userRoles.add("ROLE_USER");
+
             // 없으면
             return memberRepository.findByEmail(email)
                     .orElseGet(() -> { // 없을 때만 새로 저장해서 반환하도록 함
@@ -56,6 +62,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
                                 .nickname(nickname)
                                 .email(email)
                                 .auth(auth)
+                                .roles(userRoles)
                                 .build();
 
                         return memberRepository.save(newMember);

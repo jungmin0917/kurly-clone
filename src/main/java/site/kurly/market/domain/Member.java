@@ -103,7 +103,7 @@ public class Member implements UserDetails {
 
     // 권한 리스트 (스프링 시큐리티용)
     // member_roles라는 테이블이 생기며, member 테이블과 연동되어 있다.
-    // @ElementCollection 을 이용하면
+    // @ElementCollection 을 이용하면 1:N의 테이블을 자동으로 생성한다.
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "member_roles", joinColumns = @JoinColumn(name = "member_no"))
     private List<String> roles = new ArrayList<>();

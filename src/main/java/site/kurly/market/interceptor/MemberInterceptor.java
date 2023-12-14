@@ -24,8 +24,13 @@ public class MemberInterceptor implements HandlerInterceptor {
         // 현재 인증정보를 시큐리티 컨텍스트 홀더로부터 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        log.info(authentication.toString());
+
         // 로그인하여 인증된 상태라면
         if(authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")){
+
+            log.info(authentication.toString());
+
             String email = authentication.getName();
             Member member = memberService.findByEmail(email);
 
