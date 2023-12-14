@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import site.kurly.market.dto.CreateAccessTokenRequest;
-import site.kurly.market.dto.CreateAccessTokenResponse;
+import site.kurly.market.dto.CreateAccessTokenRequestDTO;
+import site.kurly.market.dto.CreateAccessTokenResponseDTO;
 import site.kurly.market.service.TokenService;
 
 @RequiredArgsConstructor
@@ -16,9 +16,9 @@ public class TokenApiController {
     private final TokenService tokenService;
 
     @PostMapping("/api/token")
-    public ResponseEntity<CreateAccessTokenResponse> createNewAccessToken(@RequestBody CreateAccessTokenRequest request) {
+    public ResponseEntity<CreateAccessTokenResponseDTO> createNewAccessToken(@RequestBody CreateAccessTokenRequestDTO request) {
         String newAccessToken = tokenService.createNewAccessToken(request.getRefreshToken());
 
-        return new ResponseEntity<>(new CreateAccessTokenResponse(newAccessToken), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreateAccessTokenResponseDTO(newAccessToken), HttpStatus.CREATED);
     }
 }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import site.kurly.market.domain.Member;
-import site.kurly.market.dto.AddMemberRequest;
+import site.kurly.market.dto.AddMemberRequestDTO;
 import site.kurly.market.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -14,7 +14,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     // 회원가입 처리
-    public Long save(AddMemberRequest dto) {
+    public Long save(AddMemberRequestDTO dto) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         return memberRepository.save(Member.builder()

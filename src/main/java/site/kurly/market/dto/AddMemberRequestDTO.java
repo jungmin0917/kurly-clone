@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class AddMemberRequest {
+public class AddMemberRequestDTO {
     private String auth;
     private String email;
     private String password;

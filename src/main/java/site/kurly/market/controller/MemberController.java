@@ -14,6 +14,6 @@ public class MemberController {
     // 로그인 폼으로 이동
     @GetMapping("/login")
     public String loginForm(){
-        return "loginForm";
+        return "member/loginForm";
     }
 }
