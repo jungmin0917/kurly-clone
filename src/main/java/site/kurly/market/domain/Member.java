@@ -31,7 +31,7 @@ public class Member implements UserDetails {
     @Column(name = "member_auth", unique = true, nullable = false)
     private String auth;
 
-    // 이메일
+    // 이메일 (이걸 스프링 시큐리티의 username으로 쓸 것임)
     @Column(name = "member_email", unique = true, nullable = false)
     private String email;
 
@@ -123,7 +123,7 @@ public class Member implements UserDetails {
     // username 반환 (스프링 시큐리티용)
     @Override
     public String getUsername() {
-        return this.auth;
+        return this.email;
     }
 
     // 계정 만료 여부 반환 (스프링 시큐리티용)
