@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// 액세스 토큰이 만료되었을 때 새로운 액세스 토큰을 발급받을 수 있도록 도와주는 기능을 제공하기 위한 클래스
+// 액세스 토큰이 만료되었을 때 새로운 액세스 토큰을 발급받을 수 있도록 도와주는 클래스. 리프레시 토큰과 관련된 정보를 저장하고 업데이트하는 역할을 한다.
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

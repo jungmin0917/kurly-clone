@@ -20,6 +20,8 @@ import site.kurly.market.util.CookieUtils;
 import java.io.IOException;
 import java.time.Duration;
 
+// OAuth2 로그인 성공 시 처리를 담당하는 클래스. OAuth2 인증 성공 시 사용자 정보 가져오기, 리프레시 토큰 생성 및 저장, 액세스 토큰 생성 등을 수행한다.
+
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -38,8 +40,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 예외가 아니고 메서드 시그니처를 다르게 적어서 onAuthenticationSuccess를 완전 다른 메서드로 작성한 거였음
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("test....");
-
+        // 사용자 정보를 가져옴
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = memberService.findByEmail((String) oAuth2User.getAttributes().get("email"));
 

@@ -7,6 +7,8 @@ import site.kurly.market.domain.Member;
 
 import java.time.Duration;
 
+// 토큰 생성과 관련된 비즈니스 로직을 처리하는 서비스
+
 @RequiredArgsConstructor
 @Service
 public class TokenService {

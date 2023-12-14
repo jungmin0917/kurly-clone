@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import site.kurly.market.repository.MemberRepository;
 
-// 스프링 시큐리티에서 사용자 정보를 가져오는 인터페이스
+// 스프링 시큐리티의 UserDetailsService를 구현한 클래스로, 사용자 정보를 가져오는 역할을 하는 클래스
 // 사용자의 로그인 요청이 있을 때 해당 사용자의 정보를 데이터베이스 등에서 가져와 Spring Security에게 제공하는 역할을 함
 
 @RequiredArgsConstructor

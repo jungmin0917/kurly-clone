@@ -13,8 +13,9 @@ import site.kurly.market.repository.MemberRepository;
 
 import java.util.Map;
 
-// OAuth2 로그인 시 사용자 정보를 가져오는 데 사용함
+// OAuth2 로그인으로 얻은 사용자 정보를 커스텀해서 처리하는 서비스. 주로 DB에 사용자 정보를 저장하거나 업데이트하는 로직을 수행한다.
 // 굳이 DefaultOAuth2UserService를 상속받아 커스텀한 이유는 OAuth2 로그인으로 얻은 사용자 정보를, 우리의 데이터베이스에 유지하거나 업데이트하는 로직을 추가하기 위함임
+
 @RequiredArgsConstructor
 @Service
 public class OAuth2UserCustomService extends DefaultOAuth2UserService {
@@ -32,23 +33,25 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         return user; // OAuth2User 반환
     }
 
-    // 유저가 있으면 업데이트, 없으면 유저 생성 (이미 가입한 유저 및 가입하지 않은 유저 모두 처리하기 위함?)
-    // 여기서는 생성만 하도록 함
+    // 유저가 없으면 생성, 없으면 그대로 두기
     private Member save(OAuth2User oAuth2User) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String nickname = (String) attributes.get("profile_nickname");
         String email = (String) attributes.get("account_email");
-        String auth = (String) oAuth2User.getAttribute("id");
+        String auth = oAuth2User.getAttribute("id");
 
-        Member member = memberRepository.findByEmail(email)
-                .orElse(Member.builder()
-                        .nickname(nickname)
-                        .email(email)
-                        .auth(auth)
-                        .build());
+        // 없으면
+        return memberRepository.findByEmail(email)
+                .orElseGet(() -> { // 없을 때만 새로 저장해서 반환하도록 함
+                    Member newMember = Member.builder()
+                            .nickname(nickname)
+                            .email(email)
+                            .auth(auth)
+                            .build();
 
-        return memberRepository.save(member);
+                    return memberRepository.save(newMember);
+                });
     }
 }
 

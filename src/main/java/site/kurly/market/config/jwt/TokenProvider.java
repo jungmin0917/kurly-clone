@@ -24,18 +24,15 @@ public class TokenProvider {
 
     // 회원 객체와 토큰 유효기간을 받아 JWT 토큰을 생성해 반환함.
     public String generateToken(Member member, Duration expiredAt) {
-        Date now = new Date(); // 현재 시간
-        return makeToken(new Date(now.getTime() + expiredAt.toMillis()), member);
+        return makeToken(new Date(new Date().getTime() + expiredAt.toMillis()), member);
     }
 
     // JWT 토큰 생성 메서드
     private String makeToken(Date expiry, Member member) {
-        Date now = new Date();
-
         return Jwts.builder() // JWT 빌더 생성
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // 헤더 type을 "JWT"로 설정함.
                 .setIssuer(jwtProperties.getIssuer()) // 내용 iss : ajufresh@gmail.com (properties 파일에서 설정한 것)
-                .setIssuedAt(now) // 내용 iat : 현재 시간
+                .setIssuedAt(new Date()) // 내용 iat : 현재 시간
                 .setExpiration(expiry) // 내용 exp : 매개변수로 넘어온 expiry
                 .setSubject(member.getEmail()) // 내용 sub : 유저의 이메일
                 .claim("id", member.getNo()) // 비공개 클레임 id : 유저 No

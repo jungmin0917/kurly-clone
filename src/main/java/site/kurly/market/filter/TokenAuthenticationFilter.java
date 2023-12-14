@@ -12,6 +12,8 @@ import site.kurly.market.config.jwt.TokenProvider;
 
 import java.io.IOException;
 
+// 토큰을 이용한 인증을 처리하는 필터. 요청 헤더에서 토큰을 추출하고, 해당 토큰이 유효하면 인증 정보를 설정한다.
+
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
@@ -34,7 +36,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // 절대절대 주의!!!!!!!!!!
-        // doFilterInternal 내부에서 필터체인을 doFilter하지 않으면 다음으로 넘어가지 않아 하얀 화면만 뜬다!!!
+        // 필터의 doFilterInternal 내부에서 필터 체인을 doFilter하지 않으면 다음으로 넘어가지 않아 하얀 화면만 뜬다!!!
         filterChain.doFilter(request, response);
     }
 

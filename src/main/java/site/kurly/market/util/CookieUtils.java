@@ -7,7 +7,7 @@ import org.springframework.util.SerializationUtils;
 
 import java.util.Base64;
 
-// 브라우저의 쿠키를 다루는 유틸
+// 쿠키와 관련된 유틸리티 클래스. 쿠키 추가, 삭제, 직렬화/역직렬화 등의 기능을 제공한다
 
 public class CookieUtils {
     // 요청값(이름, 값, 만료 기간)을 바탕으로 쿠키 추가

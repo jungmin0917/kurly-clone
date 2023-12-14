@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.web.util.WebUtils;
 import site.kurly.market.util.CookieUtils;
 
+// OAuth2 인증 요청을 쿠키에 저장하고 관리하는 클래스. OAuth2 로그인 시 사용자에게 Authorization 요청을 처리하고, 저장된 정보를 사용해 인증을 수행함.
+
 public class OAuth2AuthorizationRequestBasedOnCookieRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
     public final static String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request"; // OAuth2 인증 요청 저장 시 사용할 쿠키의 이름을 정의하는 상수

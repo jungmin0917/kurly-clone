@@ -10,6 +10,8 @@ import site.kurly.market.dto.CreateAccessTokenRequestDTO;
 import site.kurly.market.dto.CreateAccessTokenResponseDTO;
 import site.kurly.market.service.TokenService;
 
+// 액세스 토큰을 생성하는 API를 제공하는 컨트롤러. 주로 리프레시 토큰을 이용해 새로운 액세스 토큰을 생성하는 역할을 한다.
+
 @RequiredArgsConstructor
 @RestController
 public class TokenApiController {

@@ -23,6 +23,8 @@ import site.kurly.market.service.MemberService;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+// 스프링 시큐리티 설정을 담은 클래스. OAuth2 로그인 및 토큰 기반의 인증 설정, 필터 등을 구성한다
+
 @RequiredArgsConstructor
 @Configuration
 public class WebOAuthSecurityConfig {
