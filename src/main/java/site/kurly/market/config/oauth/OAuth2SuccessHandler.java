@@ -1,5 +1,7 @@
 package site.kurly.market.config.oauth;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,7 +47,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 사용자 정보를 가져옴
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Member member = memberService.findByEmail((String) oAuth2User.getAttributes().get("email"));
+
+        ObjectMapper objectMapper = new ObjectMapper(); // JSON 형태의 값을 편하게 사용하기 위한 jackson databind 라이브러리 사용
+        String jsonString = objectMapper.writeValueAsString(oAuth2User.getAttributes());
+        JsonNode rootNode = objectMapper.readTree(jsonString);
+        String email = rootNode.path("kakao_account").path("email").asText();
+        Member member = memberService.findByEmail(email);
 
         // 리프레시 토큰 생성 -> 저장 -> 쿠키에 저장
         String refreshToken = tokenProvider.generateToken(member, REFRESH_TOKEN_DURATION); // 리프레시 토큰 생성
