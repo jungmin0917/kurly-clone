@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6' /* 타임리프에서 스프링 시큐리티 사용 */
     implementation 'org.modelmapper:modelmapper:3.2.0' /* Entity <-> DTO 변환 */
     implementation 'javax.xml.bind:jaxb-api:2.3.1' /* XML 문서와 자바 객체 간 매핑 자동화 */
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0' /* Java 객체 <-> JSON 변환 라이브러리 */
     compileOnly 'org.projectlombok:lombok' /* 롬복 관련 */
     developmentOnly 'org.springframework.boot:spring-boot-devtools' /* DevTools 관련 */
     runtimeOnly 'com.h2database:h2' /* 인메모리 데이터베이스 H2 관련 */

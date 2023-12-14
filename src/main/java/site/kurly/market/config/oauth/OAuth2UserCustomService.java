@@ -1,6 +1,10 @@
 package site.kurly.market.config.oauth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -16,6 +20,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class OAuth2UserCustomService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
 
@@ -34,21 +39,31 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
     private Member save(OAuth2User oAuth2User) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        String nickname = (String) attributes.get("profile_nickname");
-        String email = (String) attributes.get("account_email");
-        String auth = oAuth2User.getAttribute("id");
+        // oAuth2User.getAttributes() 해서 나온 값이 JSON 형태를 띄고 있고, 중첩된 형태이므로 편하게 가져오기 위해 jackson databind 라이브러리를 사용하기로 함
+        try {
+            ObjectMapper objectMapper = new ObjectMapper(); // JSON 형태의 값을 편하게 사용하기 위한 jackson databind 라이브러리 사용
+            String jsonString = objectMapper.writeValueAsString(oAuth2User.getAttributes());
+            JsonNode rootNode = objectMapper.readTree(jsonString);
 
-        // 없으면
-        return memberRepository.findByEmail(email)
-                .orElseGet(() -> { // 없을 때만 새로 저장해서 반환하도록 함
-                    Member newMember = Member.builder()
-                            .nickname(nickname)
-                            .email(email)
-                            .auth(auth)
-                            .build();
+            String nickname = rootNode.path("kakao_account").path("profile").path("nickname").asText();
+            String email = rootNode.path("kakao_account").path("email").asText();
+            String auth = attributes.get("id").toString();
 
-                    return memberRepository.save(newMember);
-                });
+            // 없으면
+            return memberRepository.findByEmail(email)
+                    .orElseGet(() -> { // 없을 때만 새로 저장해서 반환하도록 함
+                        Member newMember = Member.builder()
+                                .nickname(nickname)
+                                .email(email)
+                                .auth(auth)
+                                .build();
+
+                        return memberRepository.save(newMember);
+                    });
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

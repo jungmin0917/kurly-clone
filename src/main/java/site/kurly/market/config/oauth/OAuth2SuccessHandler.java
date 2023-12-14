@@ -40,6 +40,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 예외가 아니고 메서드 시그니처를 다르게 적어서 onAuthenticationSuccess를 완전 다른 메서드로 작성한 거였음
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        log.info("oauth login success...");
+
         // 사용자 정보를 가져옴
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Member member = memberService.findByEmail((String) oAuth2User.getAttributes().get("email"));
