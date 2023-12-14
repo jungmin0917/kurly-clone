@@ -5,6 +5,7 @@ package site.kurly.market.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import site.kurly.market.service.MemberService;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MemberInterceptor implements HandlerInterceptor {
     private final MemberService memberService;
 
@@ -23,7 +25,7 @@ public class MemberInterceptor implements HandlerInterceptor {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 인증된 상태라면
-        if(authentication != null && authentication.isAuthenticated()){
+        if(authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")){
             String email = authentication.getName();
             Member member = memberService.findByEmail(email);
 

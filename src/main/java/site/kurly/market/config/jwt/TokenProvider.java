@@ -31,7 +31,7 @@ public class TokenProvider {
     private String makeToken(Date expiry, Member member) {
         return Jwts.builder() // JWT 빌더 생성
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // 헤더 type을 "JWT"로 설정함.
-                .setIssuer(jwtProperties.getIssuer()) // 내용 iss : ajufresh@gmail.com (properties 파일에서 설정한 것)
+                .setIssuer(jwtProperties.getIssuer()) // 내용 iss : 발급자
                 .setIssuedAt(new Date()) // 내용 iat : 현재 시간
                 .setExpiration(expiry) // 내용 exp : 매개변수로 넘어온 expiry
                 .setSubject(member.getEmail()) // 내용 sub : 유저의 이메일
