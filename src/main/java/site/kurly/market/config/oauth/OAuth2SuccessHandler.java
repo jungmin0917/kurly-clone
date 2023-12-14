@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 import site.kurly.market.config.jwt.TokenProvider;
 import site.kurly.market.domain.Member;
 import site.kurly.market.domain.RefreshToken;
@@ -29,6 +28,7 @@ import java.time.Duration;
 @Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
+    public static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(7);
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
     public static final String REDIRECT_PATH = "/"; // 메인으로 가게 함
@@ -58,18 +58,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String refreshToken = tokenProvider.generateToken(member, REFRESH_TOKEN_DURATION); // 리프레시 토큰 생성
         saveRefreshToken(member.getNo(), refreshToken); // DB에 리프레시 토큰 저장
         addRefreshTokenToCookie(request, response, refreshToken); // 쿠키에 리프레시 토큰 저장
-        log.info("refreshToken: " + refreshToken);
 
         // 액세스 토큰 생성 -> URL에 액세스 토큰 추가
         String accessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION); // 액세스 토큰 생성
-        String targetUrl = getTargetUrl(accessToken); // 패스에 액세스 토큰 추가
-        log.info("accessToken: " + accessToken);
+        addAccessTokenToCookie(request, response, accessToken); // 쿠키에 액세스 토큰 저장
 
         // 인증 관련 설정값, 쿠키 제거
         clearAuthenticationAttributes(request, response);
 
         // 리다이렉트
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(request, response, REDIRECT_PATH);
     }
 
     // 생성된 리프레시 토큰을 전달받아 데이터베이스에 저장
@@ -88,18 +86,17 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         CookieUtils.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
     }
 
+    // 생성된 액세스 토큰을 쿠키에 저장
+    private void addAccessTokenToCookie(HttpServletRequest request, HttpServletResponse response, String accessToken) {
+        int cookieMaxAge = (int) ACCESS_TOKEN_DURATION.toSeconds();
+        CookieUtils.deleteCookie(request, response, ACCESS_TOKEN_COOKIE_NAME);
+        CookieUtils.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken, cookieMaxAge);
+    }
+
     // 인증 관련 설정값, 쿠키 제거
     private void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
         authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
-    }
-
-    // 액세스 토큰을 패스에 추가
-    private String getTargetUrl(String token) {
-        return UriComponentsBuilder.fromUriString(REDIRECT_PATH)
-                .queryParam("token", token)
-                .build()
-                .toUriString();
     }
 }
 
