@@ -3,6 +3,7 @@ package site.kurly.market.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,11 +38,11 @@ public class WebOAuthSecurityConfig {
     private final MemberService memberService;
 
     @Bean
-    public WebSecurityCustomizer configure() {
+    public WebSecurityCustomizer webSecurityCustomizer() {
         // 특정 요청 및 특정 리소스에 스프링 시큐리티 기능 비활성화
         return (web) -> web.ignoring()
                 .requestMatchers(toH2Console())
-                .requestMatchers("/img/**", "/css/**", "/js/**");
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
@@ -57,7 +58,7 @@ public class WebOAuthSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 // 헤더를 확인할 커스텀 필터 추가
-                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // 이 필터는 특정 URL에만 진행되는 게 아니고 모든 요청에 대해 실행된다고 함
                 // 토큰 재발급 URL은 인증 없이 접근 가능하도록 설정. 나머지 API URL은 인증 필요
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/api/token").permitAll()
@@ -104,7 +105,7 @@ public class WebOAuthSecurityConfig {
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter(tokenProvider);
+        return new TokenAuthenticationFilter(tokenProvider, memberService);
     }
 
     @Bean

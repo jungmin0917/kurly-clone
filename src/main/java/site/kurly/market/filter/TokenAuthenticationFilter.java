@@ -9,8 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 import site.kurly.market.config.jwt.TokenProvider;
+import site.kurly.market.domain.Member;
+import site.kurly.market.service.MemberService;
+import site.kurly.market.util.CookieUtils;
 
 import java.io.IOException;
 
@@ -20,9 +24,18 @@ import java.io.IOException;
 @Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
+    private final MemberService memberService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        log.info("Token filter executing for URI: {}", request.getRequestURI());
+
+        // 정적 리소스에 대한 요청인지 확인
+        if (isStaticResourceRequest(request.getRequestURI())) {
+            filterChain.doFilter(request, response); // 그냥 넘어감
+            return;
+        }
 
         Cookie[] cookies = request.getCookies();
         String token = getAccessTokenFromCookies(cookies);
@@ -32,7 +45,28 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication); // 인증 정보를 관리하는 시큐리티 컨텍스트에 인증 정보를 설정함.
 
-            log.info(authentication.toString());
+            if(request.getRequestURI().equals("/joinAddInfo")){
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            User user = (User)authentication.getPrincipal();
+
+            Member member = null;
+            try {
+                member = memberService.findByEmail(user.getUsername());
+            } catch (Exception e) {
+                CookieUtils.deleteCookie(request, response, "access_token");
+                CookieUtils.deleteCookie(request, response, "refresh_token");
+                response.sendRedirect("/");
+                return;
+            }
+
+            if(member.getPassword() == null){
+                // 추가 컬럼을 입력하게 함
+                response.sendRedirect("/joinAddInfo");
+                return;
+            }
         }
 
         // 절대절대 주의!!!!!!!!!!
@@ -50,6 +84,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         return "";
+    }
+
+    // 정적 리소스에 대한 요청인지 확인
+    private boolean isStaticResourceRequest(String uri) {
+        // 정적 리소스 URI 패턴에 맞게 이 로직을 수정하세요
+        return uri.startsWith("/css") || uri.startsWith("/js") || uri.startsWith("/images") || uri.startsWith("/webjars");
     }
 }
 
