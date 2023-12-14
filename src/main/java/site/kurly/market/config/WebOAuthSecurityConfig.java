@@ -76,7 +76,7 @@ public class WebOAuthSecurityConfig {
                         )
                 )
                 .logout(l -> l
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                 )
                 .build();
     }
