@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.web.util.WebUtils;
-import site.kurly.market.util.CookieUtil;
+import site.kurly.market.util.CookieUtils;
 
 public class OAuth2AuthorizationRequestBasedOnCookieRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
@@ -31,7 +31,7 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
     public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
 
-        return CookieUtil.deserialize(cookie, OAuth2AuthorizationRequest.class);
+        return CookieUtils.deserialize(cookie, OAuth2AuthorizationRequest.class);
     }
 
     // OAuth2 인증 요청을 저장하는 메서드. 주어진 요청이 null인 경우 쿠키에서 해당 정보를 삭제하고, 아니면 인증 요청을 쿠키에 저장하고 설정된 만료 시간까지 유지함.
@@ -43,11 +43,11 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
         }
 
         // 쿠키에 인증 요청 정보 저장함
-        CookieUtil.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtil.serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
+        CookieUtils.addCookie(response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME, CookieUtils.serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
     }
 
     public void removeAuthorizationRequestCookies(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
+        CookieUtils.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
     }
 }
 

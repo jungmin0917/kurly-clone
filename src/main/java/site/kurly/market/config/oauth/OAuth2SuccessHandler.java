@@ -15,7 +15,7 @@ import site.kurly.market.domain.Member;
 import site.kurly.market.domain.RefreshToken;
 import site.kurly.market.repository.RefreshTokenRepository;
 import site.kurly.market.service.MemberService;
-import site.kurly.market.util.CookieUtil;
+import site.kurly.market.util.CookieUtils;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -71,8 +71,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 생성된 리프레시 토큰을 쿠키에 저장
     private void addRefreshTokenToCookie(HttpServletRequest request, HttpServletResponse response, String refreshToken) {
         int cookieMaxAge = (int) REFRESH_TOKEN_DURATION.toSeconds();
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
-        CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
+        CookieUtils.deleteCookie(request, response, REFRESH_TOKEN_COOKIE_NAME);
+        CookieUtils.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieMaxAge);
     }
 
     // 인증 관련 설정값, 쿠키 제거
