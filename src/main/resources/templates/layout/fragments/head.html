@@ -7,11 +7,12 @@
     <!-- Head -->
     <head>
         <meta charset="utf-8">
-        <link rel="icon" th:href="@{/images/favicon.ico}">
+        <link rel="icon" th:href="@{img}">
 
         <!-- 이 부분에 <title></title> 부분을 불러올 때 지정하고 싶음 -->
         <title th:text="'컬리 - ' + ${title}">컬리</title>
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css"> <!--/* minireset.css */-->
         <link rel="stylesheet" th:href="@{/css/swiper-bundle.min.css}"> <!--/* Swiper CSS */-->
         <link rel="stylesheet" th:href="@{/css/common.css}"> <!--/* 사이트 전역 CSS */-->
 

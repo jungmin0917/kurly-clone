@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/common}" th:with="title='로그인'">
+      layout:decorate="~{layout/common}" th:with="title='5xx 에러'">
 
 <!-- 페이지별 css -->
 <th:block layout:fragment="css"></th:block>
@@ -10,11 +10,7 @@
 <th:block layout:fragment="content">
     <!-- Begin Page Content -->
     <div class="container-fluid">
-        <h1>로그인 페이지</h1>
-
-        <a th:href="@{https://kauth.kakao.com/oauth/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code(clientId=${clientId}, redirectUri=${redirectUri})}">
-            <img src="/img/kakao_login.png" alt="">
-        </a>
+        <h1>에러 페이지</h1>
     </div>
 </th:block>
 </html>

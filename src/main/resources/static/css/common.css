@@ -1,0 +1,13 @@
+/* 공통 부분 S */
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+html, button, input, select, textarea {
+    font-family: "Noto Sans KR", "malgun gothic", AppleGothic, dotum, sans-serif;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+/* 공통 부분 E */
