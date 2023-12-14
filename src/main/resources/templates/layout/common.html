@@ -4,7 +4,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- 공통 헤드 -->
-<th:block th:replace="~{layout/fragments/head :: headFragment}"></th:block>
+<th:block th:fragment="commonFragment(title)">
+    <th:block th:replace="~{layout/fragments/head :: headFragment(${title})}"></th:block>
+</th:block>
 
 <body>
 <div id="wrapper">
