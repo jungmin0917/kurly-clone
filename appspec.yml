@@ -1,0 +1,24 @@
+# CodeDeploy Agent가 실행 중인 환경에서 사용하는 배포 방식
+# ApplicationStart 훅은 애플리케이션이 시작된 후에 실행되는 스크립트를 정의할 수 있다.
+
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/app/kurly
+    overwrite: yes
+    file_exists_behavior: OVERWRITE
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+# 새로운 버전의 애플리케이션이 배포 시 배포 프로세스가 완료된 후 ApplicationStart 훅이 작동한다.
+hooks:
+  ApplicationStart:
+    - location: deploy.sh
+      timeout: 60
+      runas: ubuntu
