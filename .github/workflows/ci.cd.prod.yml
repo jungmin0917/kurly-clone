@@ -28,11 +28,19 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Create .properties file
+      # application.properties를 secrets에서 받아와서 만듦
+      - name: Create application.properties file
         uses: actions/checkout@v3
       - run: touch ./src/main/resources/application.properties
       - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
       - run: cat ./src/main/resources/application.properties
+
+      # gradle-wrapper.properties를 secrets에서 받아와서 만듦
+      - name: Create .gradle-wrapper.properties file
+        uses: actions/checkout@v3
+      - run: touch ./gradle/wrapper/gradle-wrapper.properties
+      - run: echo "${{ secrets.GRADLE }}" > ./gradle/wrapper/gradle-wrapper.properties
+      - run: cat ./gradle/wrapper/gradle-wrapper.properties
 
       # gradle 실행 권한 추가
       - name: Grant execute permission for Gradle
