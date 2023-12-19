@@ -21,16 +21,6 @@ repositories {
     mavenCentral()
 }
 
-/* src/main/resources/application.properties가 올라가지 않아 추가한 내용 */
-sourceSets {
-    main {
-        resources {
-            srcDirs = ["src/main/resources"]
-            include '**/application.properties'
-        }
-    }
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web' /* 스프링 MVC 관련 */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' /* JPA 관련 */
