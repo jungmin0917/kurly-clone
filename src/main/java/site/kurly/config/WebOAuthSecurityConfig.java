@@ -41,7 +41,7 @@ public class WebOAuthSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // 특정 요청 및 특정 리소스에 스프링 시큐리티 기능 비활성화
         return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())
+//                .requestMatchers(toH2Console()) // H2 쓰지 않을 것
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
