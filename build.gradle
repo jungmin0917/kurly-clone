@@ -42,10 +42,10 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-///* 앱이름-plain.jar를 생성하지 않기 위함 */
-//jar {
-//    enabled = false
-//}
+/* 앱이름-plain.jar를 생성하지 않기 위함 */
+jar {
+    enabled = false
+}
 
 tasks.named('test') {
     useJUnitPlatform()
