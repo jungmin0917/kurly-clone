@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### 기타 추가 ###
-*.properties
+src/main/resources/*.properties

@@ -28,13 +28,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      # gradle-wrapper.properties를 secrets에서 받아와서 만듦
-      - name: Create .gradle-wrapper.properties file
-        uses: actions/checkout@v3
-      - run: touch ./gradle/wrapper/gradle-wrapper.properties
-      - run: echo "${{ secrets.GRADLE }}" > ./gradle/wrapper/gradle-wrapper.properties
-      - run: cat ./gradle/wrapper/gradle-wrapper.properties
-
       # application.properties를 secrets에서 받아와서 만듦
       - name: Create application.properties file
         uses: actions/checkout@v3
