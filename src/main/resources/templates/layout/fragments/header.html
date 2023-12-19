@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="topbarFragment">
+
+    <!-- Header -->
+    <header>
+        <div class="header__inner">
+            <div class="login-nav">
+                <a class="join-button">회원가입</a>
+                <div class="vertical-separator"></div>
+                <a class="login-button">로그인</a>
+                <div class="vertical-separator"></div>
+                <div class="cs-wrap">
+                    <a class="cs-button">고객센터
+                        <span class="cs-button-arrow"></span>
+                    </a>
+                    <div class="menu cs-menu">
+                        <div class="cs-menu-item">공지사항</div>
+                        <div class="cs-menu-item">자주하는 질문</div>
+                        <div class="cs-menu-item">1:1 문의</div>
+                        <div class="cs-menu-item">대량주문 문의</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-nav">
+                <div class="logo-wrap">
+                    <img th:src="@{/images/kurly.svg}" alt="메인 로고">
+                    <a th:href="@{/}">
+                        <button class="active logo-button">마켓컬리</button>
+                    </a>
+                </div>
+                <div class="search-wrap">
+                    <div class="search-inner-wrap">
+                        <input id="gnb_search" placeholder="검색어를 입력해주세요" required=""
+                               class="search-input" value="">
+                        <button id="submit" aria-label="submit" class="search-button"></button>
+                    </div>
+                </div>
+                <div class="icons-wrap">
+                    <div class="css-c4pbxv">
+                        <div class=" css-1n4p7us"></div>
+                        <button class="css-231fw3" aria-label="찜하기" type="button"></button>
+                        <div class="css-ff2aah">
+                            <button class="css-g25h97"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+</th:block>
+</html>

@@ -1,13 +1,236 @@
 /* 공통 부분 S */
 
+@import url("https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css");
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 html, button, input, select, textarea {
     font-family: "Noto Sans KR", "malgun gothic", AppleGothic, dotum, sans-serif;
 }
 
+*, :after, :before {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+*, :after, :before, legend, td, th {
+    padding: 0;
+}
+
 h1 {
     font-size: 2rem;
 }
 
+button {
+    border-radius: 0;
+}
+
+body, button, input, select, textarea {
+    font-size: 14px;
+    color: #333;
+}
+
+button, input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button {
+    overflow: visible;
+    background-color: transparent;
+    border: none;
+}
+
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* 공통 부분 E */
+
+/* header 부분 S */
+
+.header__inner {
+    position: relative;
+    width: 1050px;
+    height: 100px;
+    margin: 0 auto;
+    letter-spacing: -0.3px;
+}
+
+.header__inner .vertical-separator {
+    width: 1px;
+    height: 13px;
+    margin: 0 12px;
+    background-color: rgb(217, 217, 217);
+}
+
+.login-nav {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 320;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 12px;
+}
+
+.login-nav .join-button {
+    display: block;
+    color: rgb(95, 0, 128);
+    cursor: pointer;
+}
+
+.login-nav .login-button {
+    display: block;
+    cursor: pointer;
+}
+
+.login-nav .cs-wrap {
+    line-height: 35px;
+    position: relative;
+}
+
+.login-nav .cs-wrap .cs-button {
+    display: block;
+    cursor: pointer;
+}
+
+.login-nav .cs-wrap .cs-button .cs-button-arrow {
+    width: 8px;
+    height: 5px;
+    background-image: url(../images/cs-arrow-icon.webp);
+    background-size: cover;
+    background-position: center center;
+    display: inline-block;
+    margin-left: 2px;
+    margin-bottom: 2px;
+}
+
+.login-nav .cs-wrap .cs-menu {
+    position: absolute;
+    right: 0;
+    top: 34px;
+    width: 130px;
+    padding: 3px 9px;
+    border: 1px solid rgb(221, 221, 221);
+    background-color: rgb(255, 255, 255);
+}
+
+.login-nav .cs-wrap .cs-menu .cs-menu-item {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.login-nav .cs-wrap:hover .menu {
+    display: block;
+}
+
+.login-nav .cs-wrap .menu {
+    display: none;
+}
+
+/* header 부분 E */
+.top-nav {
+    height: 100px;
+    padding-top: 36px;
+}
+
+.top-nav .logo-wrap {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 63px;
+}
+
+.top-nav .logo-wrap img {
+    flex: 0 0 82px;
+}
+
+.top-nav .logo-button {
+    flex-shrink: 0;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: rgb(181, 181, 181);
+    cursor: pointer;
+}
+
+.top-nav .logo-button.active {
+    font-weight: 500;
+    color: rgb(95, 0, 128);
+}
+
+.top-nav .search-wrap{
+    position: relative;
+    width: 1050px;
+    margin: 0 auto;
+}
+
+.top-nav .search-inner-wrap{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    position: absolute;
+    left: 325px;
+    top: -55px;
+    width: 400px;
+    height: 48px;
+    padding-left: 14px;
+    border: 1px solid rgb(95, 0, 128);
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(247, 247, 247) 0 0 0 1px inset;
+}
+
+.top-nav .search-inner-wrap .search-input{
+    width: 300px;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    letter-spacing: -0.33px;
+}
+
+.top-nav .search-inner-wrap .search-button{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    bottom: 3px;
+    background: url(../images/search-icon.svg) 0 0 no-repeat;
+}
+
+/* footer 부분 S */
+
+/* footer 부분 E */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
